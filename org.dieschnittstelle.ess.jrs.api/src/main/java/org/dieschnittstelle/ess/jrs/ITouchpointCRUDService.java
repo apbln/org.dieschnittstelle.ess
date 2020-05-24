@@ -26,7 +26,10 @@ public interface ITouchpointCRUDService {
 	boolean deleteTouchpoint(@PathParam("touchpointId") long id);
 		
 	/*
-	 * TODO JRS1: add a new annotated method for using the updateTouchpoint functionality of TouchpointCRUDExecutor and implement it
+	 * UE JRS1: add a new annotated method for using the updateTouchpoint functionality of TouchpointCRUDExecutor and implement it
 	 */
 
+	@PUT
+	@Path("/{touchpointId}")
+	public StationaryTouchpoint updateTouchpoint(@PathParam("touchpointId") long id,StationaryTouchpoint touchpoint);
 }

@@ -79,11 +79,11 @@ public abstract class AbstractTouchpoint implements Serializable, GenericCRUDEnt
 	/*
 	 * TODO JWS2: kommentieren Sie @XmlTransient aus
 	 */
-	@XmlTransient
+	//@XmlTransient
 	@ManyToMany
 	private Collection<Customer> customers = new HashSet<Customer>();
-	
-	@XmlTransient
+
+	//@XmlTransient
 	@OneToMany(mappedBy="touchpoint")
 	private Collection<CustomerTransaction> transactions;
 

@@ -1,5 +1,6 @@
 package org.dieschnittstelle.ess.ser;
 
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import static org.dieschnittstelle.ess.utils.Utils.*;
 
 import org.apache.logging.log4j.Logger;
+import org.dieschnittstelle.ess.entities.crm.AbstractTouchpoint;
 
 public class TouchpointServiceServlet extends HttpServlet {
 
@@ -49,7 +51,7 @@ public class TouchpointServiceServlet extends HttpServlet {
 
 	}
 	
-	/*
+
 	@Override	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -58,29 +60,43 @@ public class TouchpointServiceServlet extends HttpServlet {
 		// no need to check the uri that has been used
 
 		// obtain the executor for reading out the touchpoints from the servlet context using the touchpointCRUD attribute
-
+		TouchpointCRUDExecutor exec = (TouchpointCRUDExecutor) getServletContext()
+				.getAttribute("touchpointCRUD");
 		try {
 			// create an ObjectInputStream from the request's input stream
-		
+			ObjectInputStream ois = new ObjectInputStream(request.getInputStream());
 			// read an AbstractTouchpoint object from the stream
-		
+			AbstractTouchpoint tp = (AbstractTouchpoint)ois.readObject();
 			// call the create method on the executor and take its return value
-		
+			tp = exec.createTouchpoint(tp);
 			// set the response status as successful, using the appropriate
 			// constant from HttpServletResponse
-		
+			response.setStatus(HttpServletResponse.SC_CREATED);
 			// then write the object to the response's output stream, using a
 			// wrapping ObjectOutputStream
-		
+			ObjectOutputStream oos = new ObjectOutputStream(response.getOutputStream());
 			// ... and write the object to the stream
-		
+			oos.writeObject(tp);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
+		TouchpointCRUDExecutor exec = (TouchpointCRUDExecutor) getServletContext()
+				.getAttribute("touchpointCRUD");
+		try {
+			String path = request.getPathInfo().trim();
+			path = path.substring(1);
+			int tp = Integer.parseInt(path);
+			exec.deleteTouchpoint(tp);
+
+			response.setStatus(HttpServletResponse.SC_OK);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
 	}
-	*/
-
-
 	
 }

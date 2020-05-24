@@ -9,7 +9,8 @@ import org.dieschnittstelle.ess.entities.GenericCRUDEntity;
 /*
  * TODO JRS3: entfernen Sie die Auskommentierung der Annotation
  */
-//@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+// without JsonTypeInfo -> Error: InvalidDefinitionException: Cannot construct instance of `org.dieschnittstelle.ess.entities.erp.AbstractProduct` (no Creators, like default construct, exist): abstract types either need to be mapped to concrete types, have custom deserializer, or contain additional type information
 public abstract class AbstractProduct implements Serializable, GenericCRUDEntity {
 
 	protected static Logger logger = org.apache.logging.log4j.LogManager.getLogger(AbstractProduct.class);
